@@ -64,21 +64,24 @@ def interpretor(list_program):
         # analyse lexica --------------------------------------
 
         if stype_dictionnary.has_key(listToken[0]):
-            print 'It\'s a integer'
             
             # Dictionnary error check -------------------------
             if (len(listToken) > 2) and tvar_dictionnary.has_key(listToken[1]) and stype_dictionnary.has_key(listToken[1]) and sop_dictionnary.has_key(listToken[1]):
                 raise IndentationError('syntaxe error: int definition at line {}'.format(pos))
             # Add new var to dictionnary ----------------------
             tvar_dictionnary.update({str(listToken[1]): 0 })
+            print 'Integer created and loaded in tvar_dictionnary'
 
 #        elif isinstance(listToken[0], basestring):
         elif tvar_dictionnary.has_key(listToken[0]):
-            print 'It\'s {}:{}'.format(str(listToken[0]), tvar_dictionnary[str(listToken[0])])
+            if len(listToken) == 1:
+                print 'It\'s {}:{}'.format(str(listToken[0]), tvar_dictionnary[str(listToken[0])])
+            else:
+                if listToken[1] == '=':
+                    print 'call of calculator: not implemented'
+                else:
+                    raise IndentationError('syntaxe error')
 
-        # for print -------------------------------------------    
-        elif listToken[0] == 'print':
-            print 'print not yet implemented'
         elif str(listToken[0]) == '':
             print 'blank'
         else:

@@ -4,8 +4,13 @@ int b
 a = 1
 b = 2
 
-int c
-c = a + b
+a
+b
 
-print c
+int c
+c
+
+c = a + b
+c
+
 END
