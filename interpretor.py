@@ -61,20 +61,26 @@ def interpretor(list_program):
         listToken = current_line.split(' ')
 
         print listToken
-        # analyse lexical     ---------------------------------
+        # analyse lexica --------------------------------------
+
         if stype_dictionnary.has_key(listToken[0]):
             print 'It\'s a integer'
             
-            # Dictionnary check -------------------------------
+            # Dictionnary error check -------------------------
             if (len(listToken) > 2) and tvar_dictionnary.has_key(listToken[1]) and stype_dictionnary.has_key(listToken[1]) and sop_dictionnary.has_key(listToken[1]):
-                raise IndentationError('syntaxe error: int definition at line {pos}'.format(pos))
+                raise IndentationError('syntaxe error: int definition at line {}'.format(pos))
             # Add new var to dictionnary ----------------------
             tvar_dictionnary.update({str(listToken[1]): 0 })
 
+#        elif isinstance(listToken[0], basestring):
+        elif tvar_dictionnary.has_key(listToken[0]):
+            print 'It\'s {}:{}'.format(str(listToken[0]), tvar_dictionnary[str(listToken[0])])
+
+        # for print -------------------------------------------    
+        elif listToken[0] == 'print':
+            print 'print not yet implemented'
         elif str(listToken[0]) == '':
             print 'blank'
-        elif isinstance(listToken[0], basestring):
-            print 'It\'s a ID'
         else:
             raise IndentationError('syntaxe error')
 

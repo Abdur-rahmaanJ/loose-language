@@ -7,5 +7,5 @@ b = 2
 int c
 c = a + b
 
-print(c)
+print c
 END
