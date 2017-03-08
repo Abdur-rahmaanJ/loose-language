@@ -1,41 +1,11 @@
 #!/usr/python
-
 # -----------------------------------------------------------------
 # Interpretor Tspeech version 0.01 --------------------------------
 # Author: Tarek El Saidi ------------------------------------------
 # -----------------------------------------------------------------
 
 import sys
-
-# -----------------------------------------------------------------
-# static syntax dictionary ----------------------------------------
-# -----------------------------------------------------------------
-
-INTEGER, PLUS, MINUS, EGAL = 'INTEGER', 'PLUS', 'MINUS', 'EGAL'
-
-stype_dictionnary = {'int': INTEGER }
-sop_dictionnary = {'+':PLUS, '-':MINUS, '=':EGAL }
-
-# tempory variable dictionnary ------------------------------------
-
-tvar_dictionnary = {}
-
-# -----------------------------------------------------------------
-# Token -----------------------------------------------------------
-# -----------------------------------------------------------------
-class Token(object):
-    def __init__(self,type,value):
-        # token type: INTEGER, PLUS
-        self.type = type
-        # token value: a number, '+' or None
-        self.value = value
-    def __str__(self):
-        return 'Token({type}, {value})'.format(
-            type = self.type,
-            value = self.value
-            )
-    def __repr__(self):
-        return self.__str__()
+import analyser
 
 # -----------------------------------------------------------------
 # splitFile() open a file .ts -------------------------------------
@@ -52,56 +22,17 @@ def splitFile(nameFile):
     split_program = buf.split('\n')
 
     return split_program 
-
-def interpretor(list_program):
-    # curseur -------------------------------------------------
-    pos = 0
-    current_line = list_program[pos]
-    while current_line != 'END':        
-        listToken = current_line.split(' ')
-
-        print listToken
-        # analyse lexica --------------------------------------
-
-        if stype_dictionnary.has_key(listToken[0]):
-            
-            # Dictionnary error check -------------------------
-            if (len(listToken) > 2) and tvar_dictionnary.has_key(listToken[1]) and stype_dictionnary.has_key(listToken[1]) and sop_dictionnary.has_key(listToken[1]):
-                raise IndentationError('syntaxe error: int definition at line {}'.format(pos))
-            # Add new var to dictionnary ----------------------
-            tvar_dictionnary.update({str(listToken[1]): 0 })
-            print 'Integer created and loaded in tvar_dictionnary'
-
-#        elif isinstance(listToken[0], basestring):
-        elif tvar_dictionnary.has_key(listToken[0]):
-            if len(listToken) == 1:
-                print 'It\'s {}:{}'.format(str(listToken[0]), tvar_dictionnary[str(listToken[0])])
-            else:
-                if listToken[1] == '=':
-                    print 'call of calculator: not implemented'
-                else:
-                    raise IndentationError('syntaxe error')
-
-        elif str(listToken[0]) == '':
-            print 'blank'
-        else:
-            raise IndentationError('syntaxe error')
-
-        pos += 1
-        print
-        current_line = list_program[pos]
-
 # main() 
 
 def main():
-    
     try:
-
         if len(sys.argv) == 1 or len(sys.argv) > 2:
             raise TypeError('one argument require')
         
-        interpretor(splitFile(str(sys.argv[1])))
-        print tvar_dictionnary
+        analyser.interpretor(splitFile(str(sys.argv[1])))
+        # affiche le tvar_dictionnary
+        print analyser.Parser()
+
     except IndentationError as e:
         print str(e)
         raise
